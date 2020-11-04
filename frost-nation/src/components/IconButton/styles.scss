@@ -1,0 +1,28 @@
+@import "vars.scss";
+
+.icon-button {
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  color: $c-armor;
+  border: 4px solid $c-armor;
+  border-radius: 14px;
+  display: flex;
+  cursor: pointer;
+  outline: 0;
+  transition: border 0.5s linear, color 0.5s linear;
+
+  &:hover {
+    border-radius: 18px;
+  }
+
+  &_active {
+    border-color: $c-hunger;
+    color: $c-hunger;
+  }
+
+  &__icon {
+    width: 100%;
+    height: 100%;
+  }
+}

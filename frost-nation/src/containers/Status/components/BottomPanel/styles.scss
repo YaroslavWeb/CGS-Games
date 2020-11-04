@@ -1,0 +1,33 @@
+@import "vars.scss";
+
+.bottom-panel {
+  max-height: 10%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+
+  &__resources {
+    display: flex;
+    position: relative;
+    justify-content: center;
+  }
+
+  &__trash {
+    position: absolute;
+    display: flex;
+    align-self: center;
+    color: $c-hunger;
+    font-weight: bolder;
+    font-size: 48px;
+  }
+
+  &__cash {
+    position: absolute;
+    color: $c-cash;
+    display: flex;
+    align-self: center;
+    font-weight: bolder;
+    font-size: 48px;
+  }
+}

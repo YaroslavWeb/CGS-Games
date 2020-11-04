@@ -1,7 +1,7 @@
-@import "./vars.scss";
+@import "vars.scss";
 
 .game {
-  background: #748EA5;
+  background: $gray-blue;
   width: 100vw;
   height: 100vh;
 
@@ -12,7 +12,7 @@
 }
 
 .board {
-  background: #50748E;
+  background: $black-blue;
   width: 65%;
   height: 95%;
 
@@ -20,41 +20,24 @@
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(7, 1fr);
 
-    &__info { 
-      grid-area: 2 / 2 / 7 / 7;
-      background: #748EA5;
-     }
+  &__info {
+    grid-area: 2 / 2 / 7 / 7;
+    background: $gray-blue;
+  }
 
-    &__cell {
-      border: 1px solid #262822;
-      display: flex;
-      position: relative;
-      justify-content: center;
-      align-items: center;
-      transition: border .5s linear;
+  &__cell {
+    border: 1px solid $black;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s linear;
+  }
 
-      &_pl1 {
-        border-color:$c-pl1;
-        border-width: 2px;
-      }
-      &_pl2 {
-        border-color:$c-pl2;
-        border-width: 2px;
-      }
-      &_pl3 {
-        border-color:$c-pl3;
-        border-width: 2px;
-      }
-      &_pl4 {
-        border-color:$c-pl4;
-        border-width: 2px;
-      }
-
-    }
-}
-
-.status {
-  background: #262822;
-  width: 30%;
-  height: 95%;
+  &__icon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+  }
 }

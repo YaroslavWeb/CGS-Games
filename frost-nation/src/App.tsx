@@ -2,74 +2,106 @@ import React, { useEffect, useState } from "react"
 import { block } from "bem-cn"
 import SnowStorm from "react-snowstorm"
 
-import { ReactComponent as PlayerIcon } from "./assets/player.svg"
-import { IPlayer } from "./interfaces"
-import "./App.scss"
+import { ReactComponent as PlayerIcon } from "assets/icons/player.svg"
+import { ReactComponent as EventIcon } from "assets/icons/event.svg"
+import { ReactComponent as BuildingIcon } from "assets/icons/building.svg"
+import { ReactComponent as BarIcon } from "assets/icons/bar.svg"
+import { Status } from "containers/Status"
+import * as config from "utils"
+import { IBoard, IEnvironment, IPlayer } from "interfaces"
+import "App.scss"
 
 const BEMboard = block("board")
 
 function App() {
-  const [gameStarted, setGameStarted] = useState<Boolean>(false)
-
-  const [players, setPlayers] = useState<IPlayer[]>([
-    { id: "1", place: 1, color: "#FFB666", colorSecond: "#F7931E" },
-    { id: "2", place: 13, color: "#A284BD", colorSecond: "#8B58BF" },
-    // { id: "3", place: 7, color: "#87B9D8", colorSecond: "#70A7D7" },
-    // { id: "4", place: 19, color: "#6BCDA1", colorSecond: "#50CC79" },
-  ])
+  const [gameStarted, setGameStarted] = useState<boolean>(false)
+  const [environment, setEnvironment] = useState<IEnvironment>(
+    config.environment
+  )
+  const [players, setPlayers] = useState<IPlayer[]>(config.players)
   const [turn, setTurn] = useState<number>(1)
-  const [game, setGame] = useState<any>({
-    board: [
-      [1, 2, 3, 4, 5, 6, 7],
-      [24, 0, 0, 0, 0, 0, 8],
-      [23, 0, 0, 0, 0, 0, 9],
-      [22, 0, 0, 0, 0, 0, 10],
-      [21, 0, 0, 0, 0, 0, 11],
-      [20, 0, 0, 0, 0, 0, 12],
-      [19, 18, 17, 16, 15, 14, 13],
-    ],
-  })
+  const [gameBoard, setGameBoard] = useState<IBoard[][]>(config.board)
 
   useEffect(() => {
     setGameStarted(true)
   }, [])
 
-  // TODO: должен возвращать стили
-  const getBorderColor = (item: number) =>
-    players.find((player) => player.place === item)?.color
-  // #262822
-
-  const movePlayer = (cell: number) => {
-    setPlayers((prev) => {
-      prev[turn - 1].place = cell
-      return prev
-    })
-
+  const nextTurn = () => {
     setTurn((prev) => (prev % players.length) + 1)
   }
+
+  const getCellStyles = (cell: number) => {
+    const pl = players.find((player) => player.position === cell)
+    if (pl) {
+      return config.getCellPosition(cell, pl.color)
+    }
+
+    const plPlace = players[turn - 1].position
+    const plEndur = players[turn - 1].chars.endurance
+    if (
+      Math.abs(cell - plPlace) <= plEndur ||
+      plPlace + plEndur >= 24 + cell ||
+      plPlace - plEndur <= cell - 24
+    ) {
+      return config.getCellPosition(cell, players[turn - 1].colorSecond)
+    }
+  }
+
+  const movePlayer = (cell: number) => {
+    const plPlace = players[turn - 1].position
+    const plEndur = players[turn - 1].chars.endurance
+    if (cell === plPlace) {
+      console.log("я тут")
+    } else if (
+      Math.abs(cell - plPlace) <= plEndur ||
+      plPlace + plEndur >= 24 + cell ||
+      plPlace - plEndur <= cell - 24
+    ) {
+      setPlayers((prev) => {
+        prev[turn - 1].position = cell
+        return prev
+      })
+      nextTurn()
+    } else {
+      console.log("слишком далеко")
+    }
+  }
+
   return (
     <div className="App">
       <div className="game">
         <div className={BEMboard()}>
-          {game.board.map((row: number[], idx: string) =>
-            row.map((item, jdx) => {
-              if (item !== 0) {
+          {gameBoard.map((row: IBoard[], idx: number) =>
+            row.map((cell: IBoard, jdx: number) => {
+              if (cell.number !== 0) {
                 return (
                   <div
                     key={idx + jdx}
                     className={BEMboard("cell")}
-                    style={{ borderColor: getBorderColor(item) }}
-                    onClick={() => movePlayer(item)}
+                    style={getCellStyles(cell.number)}
+                    onClick={() => movePlayer(cell.number)}
                   >
                     <span style={{ position: "absolute", top: 0, left: 0 }}>
-                      {item}
+                      {cell.number}
                     </span>
+                    {cell.type === "event" ? (
+                      <EventIcon className={BEMboard("icon")} />
+                    ) : cell.type === "building" ? (
+                      <BuildingIcon className={BEMboard("icon")} />
+                    ) : cell.type === "bar" ? (
+                      <BarIcon className={BEMboard("icon")} />
+                    ) : null}
                     {players.map((player) => {
-                      if (player.place === item) {
+                      if (player.position === cell.number) {
                         return (
                           <PlayerIcon
                             key={player.id}
-                            style={{ color: player.color }}
+                            style={{
+                              color: player.color,
+                              zIndex: 2,
+                              width: "55%",
+                              height: "55%",
+                            }}
                           />
                         )
                       } else return null
@@ -81,15 +113,9 @@ function App() {
           )}
           <div className="board__info"></div>
         </div>
-        <div className="status"></div>
+        <Status player={players[turn - 1]} environment={environment} />
       </div>
-      <SnowStorm
-        flakesMax={64}
-        flakesMaxActive={32}
-        followMouse={false}
-        vMaxY={4}
-        vMaxX={4}
-      />
+      <SnowStorm flakesMax={24} flakesMaxActive={12} vMaxY={1} vMaxX={0} />
     </div>
   )
 }
