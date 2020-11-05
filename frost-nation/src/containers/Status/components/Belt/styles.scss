@@ -1,0 +1,17 @@
+@import "vars.scss";
+
+.belt {
+  &__label {
+    color: $c-armor;
+    font-size: 36px;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__box {
+    background-color: $black-blue;
+  }
+}

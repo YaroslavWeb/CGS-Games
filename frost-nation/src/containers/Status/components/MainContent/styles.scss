@@ -1,0 +1,21 @@
+@import "vars.scss";
+
+.main-content {
+  width: 100%;
+  min-height: 73%;
+  max-height: 73%;
+  padding: 20px 0;
+  box-sizing: border-box;
+
+  &__chars {
+    font-size: 36px;
+    margin: 2px 0;
+    color: $c-armor;
+
+    & > p {
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

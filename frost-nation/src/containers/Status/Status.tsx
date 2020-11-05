@@ -1,8 +1,11 @@
-import React, { useState } from "react"
+import React, { ReactNode, useState } from "react"
 import { block } from "bem-cn"
 
-import { ProgressBar } from "components/ProgressBar"
+import { TopPanel } from "./components/TopPanel"
 import { BottomPanel } from "./components/BottomPanel"
+import { MainContent } from "./components/MainContent"
+import { InventoryContent } from "./components/InventoryContent"
+import { CompassContent } from "./components/CompassContent"
 import { IEnvironment, IPlayer } from "interfaces"
 import "./styles.scss"
 
@@ -17,40 +20,33 @@ export function Status({ player, environment }: StatusProps) {
   const [isBackpack, setBackpack] = useState<boolean>(false)
   const [isCompass, setCompass] = useState<boolean>(false)
 
-  const handleBackpack = () => setBackpack((prev) => !prev)
-  const handleCompass = () => setCompass((prev) => !prev)
+  const handleBackpack = () => {
+    if (isBackpack) {
+      setBackpack(false)
+    } else {
+      setBackpack(true)
+      setCompass(false)
+    }
+  }
+  const handleCompass = () => {
+    if (isCompass) {
+      setCompass(false)
+    } else {
+      setCompass(true)
+      setBackpack(false)
+    }
+  }
+
+  const getContent = (): ReactNode => {
+    if (isBackpack) return <InventoryContent />
+    if (isCompass) return <CompassContent />
+    return <MainContent player={player} />
+  }
 
   return (
     <div className={BEM()}>
-      <div className={BEM("state")}>
-        <img
-          alt="avatar"
-          style={{ borderColor: player.color }}
-          className={BEM("avatar")}
-          src="https://via.placeholder.com/500x500"
-        />
-        <div className={BEM("bars")}>
-          <ProgressBar
-            currentValue={player.health.currentHealth}
-            maxValue={player.health.maxHealth}
-            color="health"
-            icon="health"
-          />
-          <ProgressBar
-            currentValue={player.armor.currentArmor}
-            maxValue={player.armor.maxArmor}
-            color="armor"
-            icon="armor"
-          />
-          <ProgressBar
-            currentValue={player.hunger.currentHunger}
-            maxValue={player.hunger.maxHunger}
-            color="hunger"
-            icon="hunger"
-          />
-        </div>
-      </div>
-      <div className={BEM("content")}>Content</div>
+      <TopPanel player={player} />
+      {getContent()}
       <BottomPanel
         player={player}
         handleBackpack={handleBackpack}

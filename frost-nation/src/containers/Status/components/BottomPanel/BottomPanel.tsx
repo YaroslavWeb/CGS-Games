@@ -32,12 +32,12 @@ export function BottomPanel({
         active={isBackpack}
       />
       <IconButton onClick={handleCompass} icon="compass" active={isCompass} />
-      <div className={BEM("resources")}>
-        <TrashIcon style={{ height: "100%", width: "100%" }} />
+      <div>
+        <TrashIcon style={{ height: "95%", width: "95%" }} />
         <p className={BEM("trash")}>{player.trash}</p>
       </div>
-      <div className={BEM("resources")}>
-        <CashIcon style={{ height: "100%", width: "100%" }} />
+      <div>
+        <CashIcon style={{ height: "95%", width: "95%" }} />
         <p className={BEM("cash")}>{player.cash}</p>
       </div>
     </div>

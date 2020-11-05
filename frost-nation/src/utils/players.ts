@@ -13,6 +13,14 @@ export const players: IPlayer[] = [
     hunger: { currentHunger: 15, maxHunger: 15 },
     trash: 50,
     cash: 550,
+    inventory: {
+      capacityWeapon: 2,
+      capacityBelt: 5,
+      capacityBackpack: 12,
+      belt: [],
+      weapon: [],
+      backpack: [],
+    },
   },
   {
     id: "2",
@@ -26,6 +34,14 @@ export const players: IPlayer[] = [
     hunger: { currentHunger: 1, maxHunger: 15 },
     trash: 0,
     cash: 0,
+    inventory: {
+      capacityWeapon: 2,
+      capacityBelt: 5,
+      capacityBackpack: 12,
+      belt: [],
+      weapon: [],
+      backpack: [],
+    },
   },
   {
     id: "3",
@@ -39,6 +55,14 @@ export const players: IPlayer[] = [
     hunger: { currentHunger: 15, maxHunger: 15 },
     trash: 1000,
     cash: 1000,
+    inventory: {
+      capacityWeapon: 2,
+      capacityBelt: 5,
+      capacityBackpack: 12,
+      belt: [],
+      weapon: [],
+      backpack: [],
+    },
   },
   {
     id: "4",
@@ -52,5 +76,13 @@ export const players: IPlayer[] = [
     hunger: { currentHunger: 0, maxHunger: 10 },
     trash: 0,
     cash: 0,
+    inventory: {
+      capacityWeapon: 2,
+      capacityBelt: 5,
+      capacityBackpack: 12,
+      belt: [],
+      weapon: [],
+      backpack: [],
+    },
   },
 ]

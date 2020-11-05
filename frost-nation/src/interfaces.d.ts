@@ -32,6 +32,14 @@ export interface IPlayer {
   hunger: { currentHunger: number; maxHunger: number }
   trash: number
   cash: number
+  inventory: {
+    capacityBelt: number
+    capacityWeapon: number
+    capacityBackpack: number
+    belt: { name: string }[] | []
+    weapon: { name: string }[] | []
+    backpack: { name: string }[] | []
+  }
 }
 
 export interface IEnvironment {
