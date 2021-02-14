@@ -1,9 +1,9 @@
 import { IPlayer } from "interfaces"
+import { items, empty } from "./Items"
 
 export const players: IPlayer[] = [
   {
     id: "1",
-    waiting: false,
     position: 1,
     color: "#FFB666",
     colorSecond: "#F7931E",
@@ -17,14 +17,13 @@ export const players: IPlayer[] = [
       capacityWeapon: 2,
       capacityBelt: 5,
       capacityBackpack: 12,
-      belt: [],
+      belt: [items.bandage, items.can, items.pills, items.soda, empty],
       weapon: [],
       backpack: [],
     },
   },
   {
     id: "2",
-    waiting: true,
     position: 13,
     color: "#A284BD",
     colorSecond: "#9370B2",
@@ -38,14 +37,13 @@ export const players: IPlayer[] = [
       capacityWeapon: 2,
       capacityBelt: 5,
       capacityBackpack: 12,
-      belt: [],
+      belt: [items.bandage, items.bandage, empty, empty, empty],
       weapon: [],
       backpack: [],
     },
   },
   {
     id: "3",
-    waiting: true,
     position: 7,
     color: "#87B9D8",
     colorSecond: "#70A7D7",
@@ -59,14 +57,13 @@ export const players: IPlayer[] = [
       capacityWeapon: 2,
       capacityBelt: 5,
       capacityBackpack: 12,
-      belt: [],
+      belt: [empty, empty, empty, empty, empty],
       weapon: [],
       backpack: [],
     },
   },
   {
     id: "4",
-    waiting: true,
     position: 19,
     color: "#6BCDA1",
     colorSecond: "#50CC79",
@@ -80,7 +77,7 @@ export const players: IPlayer[] = [
       capacityWeapon: 2,
       capacityBelt: 5,
       capacityBackpack: 12,
-      belt: [],
+      belt: [items.pills, empty, empty, empty, empty],
       weapon: [],
       backpack: [],
     },

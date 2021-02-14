@@ -5,4 +5,5 @@ export const environment: IEnvironment = {
   date: { month: 1, week: 1, day: 1 },
   starving: 1,
   flakes: 24,
+  duration: 1,
 }

@@ -3,7 +3,9 @@ import { block } from "bem-cn"
 
 import { Divider } from "components/Divider"
 import { Belt } from "../Belt"
+import { Weapon } from "../Weapon"
 import { IPlayer } from "interfaces"
+
 import "./styles.scss"
 
 const BEM = block("main-content")
@@ -34,6 +36,7 @@ export function MainContent({ player }: MainContentProps) {
       </div>
       <Divider />
       <Belt player={player} />
+      <Weapon player={player} />
     </div>
   )
 }

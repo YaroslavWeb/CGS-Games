@@ -1,3 +1,5 @@
+import { ReactNode } from "react"
+
 export interface IAction {
   type: string
   payload?: any
@@ -5,7 +7,6 @@ export interface IAction {
 
 export interface IGame {
   board: IBoard[][]
-  turn: number
   players: IPlayer[]
   environment: IEnvironment
 }
@@ -17,7 +18,6 @@ export interface IBoard {
 
 export interface IPlayer {
   id: string
-  waiting: boolean
   position: number
   color: string
   colorSecond: string
@@ -36,10 +36,28 @@ export interface IPlayer {
     capacityBelt: number
     capacityWeapon: number
     capacityBackpack: number
-    belt: { name: string }[] | []
-    weapon: { name: string }[] | []
-    backpack: { name: string }[] | []
+    belt: (IStuff | IEmpty)[]
+    weapon: (IWeapone | IEmpty)[]
+    backpack: (IWeapone | IStuff | IEmpty)[]
   }
+}
+
+export interface IStuff {
+  name: string
+  icon: ReactNode
+  type: "stuff"
+}
+
+export interface IEmpty {
+  name: "Empty"
+  icon: ReactNode
+  type: "empty"
+}
+
+export interface IWeapone {
+  name: string
+  icon: ReactNode
+  type: "weapone"
 }
 
 export interface IEnvironment {
@@ -47,4 +65,5 @@ export interface IEnvironment {
   date: { month: number; week: number; day: number }
   starving: number
   flakes: number
+  duration: number
 }

@@ -1,39 +1,29 @@
-import React, { useEffect, useState } from "react"
-import { block } from "bem-cn"
+import React from "react"
 import SnowStorm from "react-snowstorm"
+import { block } from "bem-cn"
 
 import { ReactComponent as PlayerIcon } from "assets/icons/player.svg"
 import { ReactComponent as EventIcon } from "assets/icons/event.svg"
 import { ReactComponent as BuildingIcon } from "assets/icons/building.svg"
 import { ReactComponent as BarIcon } from "assets/icons/bar.svg"
+
+import { IBoard, IPlayer } from "interfaces"
+import { useOvermind } from "store"
 import { Status } from "containers/Status"
-import * as config from "utils"
-import { IBoard, IEnvironment, IPlayer } from "interfaces"
+import { getCellPosition } from "utils"
+
 import "App.scss"
 
-const BEMboard = block("board")
+const className = block("board")
 
 function App() {
-  const [gameStarted, setGameStarted] = useState<boolean>(false)
-  const [environment, setEnvironment] = useState<IEnvironment>(
-    config.environment
-  )
-  const [players, setPlayers] = useState<IPlayer[]>(config.players)
-  const [turn, setTurn] = useState<number>(1)
-  const [gameBoard, setGameBoard] = useState<IBoard[][]>(config.board)
-
-  useEffect(() => {
-    setGameStarted(true)
-  }, [])
-
-  const nextTurn = () => {
-    setTurn((prev) => (prev % players.length) + 1)
-  }
+  const { state, actions } = useOvermind()
+  const { players, environment, board, turn } = state
 
   const getCellStyles = (cell: number) => {
     const pl = players.find((player) => player.position === cell)
     if (pl) {
-      return config.getCellPosition(cell, pl.color)
+      return getCellPosition(cell, pl.color)
     }
 
     const plPlace = players[turn - 1].position
@@ -43,55 +33,38 @@ function App() {
       plPlace + plEndur >= 24 + cell ||
       plPlace - plEndur <= cell - 24
     ) {
-      return config.getCellPosition(cell, players[turn - 1].colorSecond)
+      return getCellPosition(cell, players[turn - 1].colorSecond)
     }
   }
 
-  const movePlayer = (cell: number) => {
-    const plPlace = players[turn - 1].position
-    const plEndur = players[turn - 1].chars.endurance
-    if (cell === plPlace) {
-      console.log("я тут")
-    } else if (
-      Math.abs(cell - plPlace) <= plEndur ||
-      plPlace + plEndur >= 24 + cell ||
-      plPlace - plEndur <= cell - 24
-    ) {
-      setPlayers((prev) => {
-        prev[turn - 1].position = cell
-        return prev
-      })
-      nextTurn()
-    } else {
-      console.log("слишком далеко")
-    }
+  const handleMovePlayer = (cell: number) => {
+    actions.movePlayer(cell)
   }
-
   return (
     <div className="App">
       <div className="game">
-        <div className={BEMboard()}>
-          {gameBoard.map((row: IBoard[], idx: number) =>
+        <div className={className()}>
+          {board.map((row: IBoard[], idx: number) =>
             row.map((cell: IBoard, jdx: number) => {
               if (cell.number !== 0) {
                 return (
                   <div
                     key={idx + jdx}
-                    className={BEMboard("cell")}
+                    className={className("cell")}
                     style={getCellStyles(cell.number)}
-                    onClick={() => movePlayer(cell.number)}
+                    onClick={() => handleMovePlayer(cell.number)}
                   >
                     <span style={{ position: "absolute", top: 0, left: 0 }}>
                       {cell.number}
                     </span>
                     {cell.type === "event" ? (
-                      <EventIcon className={BEMboard("icon")} />
+                      <EventIcon className={className("icon")} />
                     ) : cell.type === "building" ? (
-                      <BuildingIcon className={BEMboard("icon")} />
+                      <BuildingIcon className={className("icon")} />
                     ) : cell.type === "bar" ? (
-                      <BarIcon className={BEMboard("icon")} />
+                      <BarIcon className={className("icon")} />
                     ) : null}
-                    {players.map((player) => {
+                    {players.map((player: IPlayer) => {
                       if (player.position === cell.number) {
                         return (
                           <PlayerIcon

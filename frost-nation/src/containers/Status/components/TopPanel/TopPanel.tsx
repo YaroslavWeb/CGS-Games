@@ -3,6 +3,7 @@ import { block } from "bem-cn"
 
 import { IPlayer } from "interfaces"
 import { ProgressBar } from "components/ProgressBar"
+
 import "./styles.scss"
 
 const BEM = block("top-panel")

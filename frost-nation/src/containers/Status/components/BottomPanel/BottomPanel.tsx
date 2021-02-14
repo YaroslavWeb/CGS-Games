@@ -9,7 +9,7 @@ import "./styles.scss"
 
 const BEM = block("bottom-panel")
 
-interface BottomPanel {
+interface BottomPanelProps {
   player: IPlayer
   isBackpack: boolean
   isCompass: boolean
@@ -23,7 +23,7 @@ export function BottomPanel({
   isCompass,
   handleBackpack,
   handleCompass,
-}: BottomPanel) {
+}: BottomPanelProps) {
   return (
     <div className={BEM()}>
       <IconButton

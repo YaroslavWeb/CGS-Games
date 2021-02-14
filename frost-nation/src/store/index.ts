@@ -1,9 +1,15 @@
-import { createStore, combineReducers } from "redux"
+import { IConfig } from "overmind"
+import { createHook } from "overmind-react"
+import { state } from "./state"
+import * as actions from "./actions"
 
-import { gameReducer } from "./game/reducer"
+export const config = {
+  state,
+  actions,
+}
 
-const rootReducer = combineReducers({
-  game: gameReducer,
-})
+declare module "overmind" {
+  interface Config extends IConfig<typeof config> {}
+}
 
-export const store = createStore(rootReducer)
+export const useOvermind = createHook<typeof config>()

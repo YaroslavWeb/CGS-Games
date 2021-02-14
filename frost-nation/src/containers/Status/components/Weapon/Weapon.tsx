@@ -3,23 +3,20 @@ import { motion } from "framer-motion"
 import { block } from "bem-cn"
 
 import { IPlayer } from "interfaces"
-import { useOvermind } from "store"
 
 import "./styles.scss"
 
-const BEM = block("belt")
+const BEM = block("weapon")
 
-interface BeltProps {
+interface WeaponProps {
   player: IPlayer
 }
 
-export function Belt({ player }: BeltProps) {
-  const { actions } = useOvermind()
-
+export function Weapon({ player }: WeaponProps) {
   const boxRef = useRef<HTMLDivElement>(null)
   const constraintsRef = useRef<HTMLDivElement>(null)
-  const [currentIdx, setCurrentIdx] = useState<number>(0)
-  const [nextIdx, setNextIdx] = useState<number>(0)
+  const [currentIndex, setCurrentIndex] = useState<number>(0)
+  const [nextIndex, setNextIndex] = useState<number>(0)
   const [isDrag, setDrag] = useState<boolean>(false)
   const [boxSize, setBoxSize] = useState<number>(0)
 
@@ -36,10 +33,9 @@ export function Belt({ player }: BeltProps) {
       window.removeEventListener("resize", resizeListener)
     }
   }, [])
-
   return (
     <div className={BEM()}>
-      <span className={BEM("label")}>Пояс</span>
+      <span className={BEM("label")}>Оружие</span>
       <motion.div
         className={BEM("container")}
         ref={constraintsRef}
@@ -59,32 +55,28 @@ export function Belt({ player }: BeltProps) {
               }}
               onHoverStart={() => {
                 if (isDrag) {
-                  setNextIdx(idx)
+                  setNextIndex(idx)
                 }
               }}
             >
               {item && (
                 <motion.div
                   className={BEM("item")}
-                  style={{ zIndex: idx !== currentIdx ? 1000 : 1 }}
+                  style={{ zIndex: idx !== currentIndex ? 1000 : 1 }}
                   drag={item.name !== "Empty"}
                   dragElastic={1}
                   dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
                   onDragStart={() => {
                     setDrag(true)
-                    setCurrentIdx(idx)
+                    setCurrentIndex(idx)
                   }}
                   onDragEnd={() => {
                     setDrag(false)
-                    if (
-                      currentIdx !== -1 &&
-                      nextIdx !== -1 &&
-                      currentIdx !== nextIdx
-                    ) {
-                      actions.dragItem({ currentIdx, nextIdx })
+                    if (currentIndex !== -1 && nextIndex !== -1) {
+                      // dispatch(dragItem(currentIndex, nextIndex))
                     }
-                    setCurrentIdx(-1)
-                    setNextIdx(-1)
+                    setCurrentIndex(-1)
+                    setNextIndex(-1)
                   }}
                   whileHover={{
                     scale: 1.03,
